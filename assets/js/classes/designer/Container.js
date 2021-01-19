@@ -7,10 +7,18 @@ Vertical Align - (top - bottom - center - )
 
 */
 
+import Group from "./Group"
+import Text from "./Text"
+
 class ContainerElement {
-    constructor() {
+    constructor(element) {
 
         //common attributes for Groups and Inputs
+        if(!element.index) throw 'Container element must have an index'
+        
+        this.type = element.type
+        this.index = element.index
+
 
     }
 }
@@ -18,9 +26,9 @@ class ContainerElement {
 
 export default class Container {
 
-    constructor(container) {
+    constructor(container = {}) {
 
-        this.index = page.index
+        this.index = container.index
 
         this.position = container.position || { x: undefined, y: undefined }
         this.width = container.width || { max: undefined, min: undefined }
@@ -31,20 +39,25 @@ export default class Container {
 
         this.overflow = container.overflow || 'visible'
 
-        this.elements = container.elements.map(element => {
-            
-            // if(element.type == 'GROUP')
-
-
-
-        }) || []
+        this.elements_index = conatiner.elements_index || 0
+        this.elements = container.elements && container.elements.map(element => new Container.Elements[element.type](element)) || []
 
 
     }
 
-    static get Element() {
+    static get Element () {
         return ContainerElement
     }
 
+    static get Elements () {
+        return {
+            GROUP: Group,
+            TEXT: Text
+        }
+    }
+
+    addElement(element) {
+        this.elements.push(new Container.Elements[element.type]({ ...element, index: this.elements_index++ }))
+    }
 
 }
