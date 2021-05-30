@@ -5,12 +5,18 @@ export default {
                 ASSETS: 'Assets',
                 DESIGN: 'Design',
                 TEST: 'Test'
+            },
+            type: {
+                PAGE: 'PAGE',
+                CONTAINER: 'CONTAINER',
+                GROUP: 'GROUP',
+                TEXT: 'TEXT'
             }
         }
     },
     computed: {
-        active_section () {
-            return this.$store.state.designer.active_section
+        activeSection () {
+            return this.$store.state.designer.activeSection
         }
     }
 }

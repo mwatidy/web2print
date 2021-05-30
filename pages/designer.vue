@@ -1,7 +1,7 @@
 <template>
-    <DesignerControlsAssets v-if="active_section == section.ASSETS" />
-    <DesignerControlsDesign v-else-if="active_section == section.DESIGN" />
-    <DesignerControlsTest v-else-if="active_section == section.TEST" />
+    <DesignerControlsAssets v-if="activeSection == section.ASSETS" />
+    <DesignerControlsDesign v-else-if="activeSection == section.DESIGN" />
+    <DesignerControlsTest v-else-if="activeSection == section.TEST" />
 </template>
 
 <script>
@@ -11,7 +11,7 @@ export default {
     layout: 'designer',
     mixins: [ DesignerMixin ],
     created () {
-        console.log('you are on track')
+        
     },
 }
 </script>

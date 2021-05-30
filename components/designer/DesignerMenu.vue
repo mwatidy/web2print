@@ -3,7 +3,7 @@
         <button 
             v-for="button of buttons" 
             :key="button" 
-            :class="['menu-button', { active: active_section == button }]"
+            :class="['menu-button', { active: activeSection == button }]"
             @click="$store.commit('designer/update_section', button)"
         >
             {{ button }} 

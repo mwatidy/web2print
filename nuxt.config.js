@@ -20,10 +20,12 @@ export default {
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
+    '~/node_modules/@braid/vue-formulate/themes/snow/snow.scss'
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
+    '~/plugins/main.js'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -33,7 +35,12 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
+    '@braid/vue-formulate/nuxt',
   ],
+
+  formulate: {
+    configPath: '~/assets/js/formulate.config.js'
+  },
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
