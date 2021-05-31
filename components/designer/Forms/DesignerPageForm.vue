@@ -1,16 +1,25 @@
 <template>
     <FormulateForm
         v-if="activeItem.type === type.PAGE"
-        values="formValues"
+        
     >
         <FormulateInput
-            type="email"
-            name="email"
-            label="Write your email"
-            help="some note goes here"
-            placeholder="Email"
-            validation="required|email"
+            type="text"
+            name="Name"
+            label="Page Name"
+            help="The name that appears for you"
+            placeholder="Page 1"
         />
+
+        <FormulateInput
+            type="select"
+            name="Background"
+            label="Page Background"
+            :options="['back 1', 'back 2']"
+            help="The background of the page"
+        />
+
+
     </FormulateForm>
 </template>
 

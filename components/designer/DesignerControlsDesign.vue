@@ -14,7 +14,7 @@
     </div>
     <div class="w-7/12 border p-4">
 
-        <div class="flex items-center mb-6">
+        <div class="flex items-center my-2 mb-6">
             <TreeIcon :icon="activeItem.type" width="30" height="30"/>
             <h1 class="text-xl font-bold pl-2 truncate"> {{ activeItem.title }} Properties </h1>
         </div>
@@ -51,66 +51,16 @@ export default {
     mixins: [ DesignerMixin ],
     data() {
         return {
-            pages: [] 
+
         }
     },
     mounted () {
-        this.pages =  [
-                {
-                    title: 'page 1',
-                    type: this.type.PAGE,
-                    children: [
-                        {
-                            title: 'container 1',
-                            type: this.type.CONTAINER
-                        },
-                        {
-                            title: 'container 2',
-                            type: this.type.CONTAINER,
-                            children: [
-                                {
-                                    title: 'group 1',
-                                    type: this.type.GROUP,
-                                    children: [
-                                        {
-                                            title: 'SubGroup',
-                                            type: this.type.GROUP,
-                                            children: [
-                                                {
-                                                    title: 'subtext',
-                                                    type: this.type.TEXT
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                },
-                                {
-                                    title: 'group 2',
-                                    type: this.type.GROUP,
-                                    children: [
-                                        {
-                                            title: 'subcontent 4 and some more info',
-                                            type: this.type.TEXT
-                                        }
-                                    ]
-                                },
-                            ]
-                        },
-                        {
-                            title: 'container 2',
-                            type: this.type.CONTAINER
-                        }
-                    ]
-                },
-                {
-                    title: 'page 2',
-                    type: this.type.PAGE
-                }
-            ] 
+
     },
     computed: {         
         ...mapState({
             activeItem: state => state.designer.activeItem,
+            pages: state => state.designer.pages
         })
     }
 }

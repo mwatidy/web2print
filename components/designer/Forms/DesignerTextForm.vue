@@ -1,7 +1,7 @@
 <template>
     <FormulateForm
         v-if="activeItem.type === type.TEXT"
-        values="formValues"
+        
     >
         <FormulateInput
             type="email"

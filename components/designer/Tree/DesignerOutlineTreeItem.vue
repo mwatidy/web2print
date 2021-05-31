@@ -3,7 +3,9 @@
         <div>
             <div 
                 @click="treeItemClick"
-                class="flex items-center p-2 hover:bg-blue-100 cursor-pointer" 
+                :class="['flex items-center p-2 cursor-pointer', 
+                    item.title === activeItem.title ? 'active-item' : 'hover:bg-blue-200'
+                    ]" 
                 :style="{ paddingLeft: (depth) + 'em',  whiteSpace: 'nowrap', width: 'fit-content', minWidth: '100%' }" 
             >
                     <TreeIcon :icon="type[item.type]" />
@@ -25,7 +27,7 @@
 import DesignerOutlineTreeItem from '~/components/designer/Tree/DesignerOutlineTreeItem'
 import DesignerMixin from '~/mixins/designer'
 
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 
 export default {
     // components: { DesignerOutlineTreeItem: () => import('~/components/designer/Tree/DesignerOutlineTreeItem.vue') },
@@ -49,13 +51,17 @@ export default {
         }),
         treeItemClick () {
 
-            this.setActive(this.item)
+            this.setActive({ ...this.item })
 
-            console.log(this.depth)
-            console.log(this.item)
-            
+            // console.log(this.depth)
+            // console.log(this.item)
 
         }
+    },
+    computed: {
+        ...mapState({
+            activeItem: state => state.designer.activeItem
+        })
     },
     mounted () {
         
@@ -84,3 +90,15 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.active-item {
+    @apply  font-bold text-blue-600;
+}
+
+.active-item >>> svg {
+    @apply stroke-2 stroke-current fill-current text-blue-600;
+    /* fill: #FFF;
+    stroke: #FFF; */
+}
+</style>

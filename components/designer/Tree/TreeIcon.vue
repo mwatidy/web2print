@@ -15,11 +15,11 @@ export default {
             type: String
         },
         width: {
-            type: Number,
+            type: [ Number, String ],
             default: () => 15
         },
         height: {
-            type: Number,
+            type: [ Number, String ],
             default: () => 15
         },
     }

@@ -1,7 +1,6 @@
 <template>
     <FormulateForm
         v-if="activeItem.type === type.GROUP"
-        values="formValues"
     >
         <FormulateInput
             type="email"
