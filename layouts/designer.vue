@@ -5,7 +5,7 @@
   </div>
   <div class="designer-main w-full lg:w-6/12 xl:w-5/12">
     <DesignerMenu />
-    <div style="max-height: calc(100% - 70px);" class="h-full overflow-auto" >
+    <div style="max-height: calc(100% - 70px);" class="h-full" >
       <Nuxt />
     </div>
   </div>

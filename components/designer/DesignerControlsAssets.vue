@@ -1,5 +1,5 @@
 <template>
-<div class="section-container">
+<div class="section-container h-full overflow-auto">
     <div class="section">
         <h1>Fonts</h1>
         <div class="font-list">

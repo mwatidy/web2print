@@ -8,11 +8,11 @@
                 <button class="p-4 border">A2</button>
             </div>
         </div>
-        <div class="overflow-auto h-full">
+        <div class="overflow-auto">
             <DesignerOutlineTree :tree="pages" />
         </div>
     </div>
-    <div class="w-7/12 border p-4">
+    <div class="w-7/12 border p-4  overflow-auto">
 
         <div class="flex items-center my-2 mb-6">
             <TreeIcon :icon="activeItem.type" width="30" height="30"/>
@@ -23,6 +23,10 @@
         <DesignerContainerForm />
         <DesignerGroupForm />
         <DesignerTextForm />
+
+        <button class="uppercase block bg-green-500 hover:bg-green-400 text-white w-full text-center p-4 my-8 font-bold rounded"> 
+            Save
+        </button>
 
 
         <!-- FORM ELEMENTS FOR PAGES -->

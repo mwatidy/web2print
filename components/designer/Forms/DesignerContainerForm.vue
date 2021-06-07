@@ -26,7 +26,7 @@
                 type="number"
                 name="PositionY"
                 label="Position Y" 
-                placeholder="200"           
+                placeholder="200"  
             />
         </div>
 
@@ -37,6 +37,7 @@
                 name="MinWidth"
                 label="Min Width"
                 placeholder="200"
+                min="0"
             />
 
             <FormulateInput
@@ -44,7 +45,8 @@
                 type="number"
                 name="MaxWidth"
                 label="Max Width"
-                placeholder="200"           
+                placeholder="200" 
+                min="0"          
             />
         </div>
 
@@ -55,6 +57,7 @@
                 name="MinHeight"
                 label="Min Height"
                 placeholder="200"
+                min="0"
             />
 
             <FormulateInput
@@ -62,16 +65,44 @@
                 type="number"
                 name="MaxHeight"
                 label="Max Height"
-                placeholder="200"           
+                placeholder="200" 
+                min="0"       
             />
         </div>
 
-        <FormulateInput
-            type="number"
-            name="padding"
-            label="Spacing"
-            help="space inside contianer"
-        />
+        <h1 class="font-bold pt-0 pb-4">Space inside container</h1>
+        <div class="flex">
+
+            <FormulateInput
+                class="mr-4"
+                type="number"
+                name="PaddingTop"
+                label="Top"
+            />
+
+            <FormulateInput
+                class="mr-4"
+                type="number"
+                name="PaddingBottom"
+                label="Bottom"
+            />
+
+            <FormulateInput
+                class="mr-4"
+                type="number"
+                name="PaddingRight"
+                label="Right"
+            />
+
+            <FormulateInput
+                class="mr-4"
+                type="number"
+                name="PaddingLeft"
+                label="Left"
+            />
+
+        </div>
+
 
 
         <FormulateInput
@@ -82,12 +113,34 @@
             help="If elements exceed width or height of container"
         />
 
+
         <FormulateInput
             type="select"
-            name="Direction"
-            label="Direction of elements"
+            name="ElementAxis"
+            label="Elements placing"
             :options="['Next to each other', 'Below each other']"
             help="How will children elements be placed"
+        />
+
+        <FormulateInput
+            type="select"
+            name="ElementPositionX"
+            label="Elements Positioning X Axis"
+            :options="['Beginning', 'End', 'Center', 'Space Between']"
+        />
+
+        <FormulateInput
+            type="select"
+            name="ElementPositionY"
+            label="Elements Positioning Y Axis"
+            :options="['Beginning', 'End', 'Center', 'Space Between']"
+        />
+
+        <FormulateInput
+            type="number"
+            name="ElementPadding"
+            label="Elements Spacing"
+            help="space between elements"
         />
 
     </FormulateForm>
