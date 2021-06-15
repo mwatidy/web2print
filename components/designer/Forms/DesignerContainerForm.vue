@@ -1,8 +1,5 @@
 <template>
-    <FormulateForm
-        v-if="activeItem.type === type.CONTAINER"
-        
-    >
+    <FormulateForm>
 
         <FormulateInput
             type="text"
@@ -19,6 +16,8 @@
                 name="PositionX"
                 label="Position X"
                 placeholder="200"
+                @input="update('left', $event)"
+                :value="parseInt(activeItem.style.left.replace('px', ''))"
             />
 
             <FormulateInput
@@ -26,7 +25,33 @@
                 type="number"
                 name="PositionY"
                 label="Position Y" 
-                placeholder="200"  
+                placeholder="200"
+                @input="update('top', $event)"
+                :value="parseInt(activeItem.style.top.replace('px', ''))"  
+            />
+        </div>
+
+        <div class="flex">
+            <FormulateInput
+                class="mr-4"
+                type="number"
+                name="width"
+                label="Width"
+                placeholder="200"
+                min="0"
+                @input="update('width', $event)"
+                :value="parseInt(activeItem.style.width.replace('px', ''))"  
+            />
+
+            <FormulateInput
+                class="mr-4"
+                type="number"
+                name="height"
+                label="Height"
+                placeholder="200" 
+                min="0"
+                @input="update('height', $event)"
+                :value="parseInt(activeItem.style.height.replace('px', ''))"            
             />
         </div>
 
@@ -153,9 +178,29 @@ import DesignerMixin from '~/mixins/designer'
 
 export default {
     mixins: [ DesignerMixin ],
+    methods: {
+        update (key, val) {
+
+            console.log('key', key)
+            console.log('val', val)
+
+            // const active = this.activeItem
+            const pages = this.pages
+            
+            pages[0].children[0].style[key] = val + 'px'
+            this.$store.commit('designer/update_pages', pages)
+
+            // console.log(this.pages[0].children[0])
+            // console.log(this.pages[0].children[0].style[key])
+            
+
+
+        }
+    },
     computed: {         
         ...mapState({
             activeItem: state => state.designer.activeItem,
+            pages: state => state.designer.pages,
         })
     }
 }

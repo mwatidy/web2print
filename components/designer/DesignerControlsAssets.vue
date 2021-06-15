@@ -3,17 +3,12 @@
     <div class="section">
         <h1>Fonts</h1>
         <div class="font-list">
-            <div>
-                <span>Arial</span>
-                <button>&times;</button>
-            </div>
-            <div>
-                <span>Arial Narrow Bold</span>
-                <button>&times;</button>
-            </div>
-            <div>
-                <span>Times New Roman</span>
-                <button>&times;</button>
+            <div 
+                v-for="(font, i) of fonts" 
+                :key="i"
+            >
+                <span>{{ font.name }}</span>
+                <button @click="deleteFont(i)" class="close-button">&times;</button>
             </div>
         </div>
         <div class="uploader">
@@ -22,7 +17,13 @@
                 name="file"
                 label="Upload Fonts"
                 help="Select one or more fonts"
-                validation="mime:application/pdf"
+                :uploader="fontUploader"
+                accept="font/*,application/vnd.ms-fontobject"
+                validation="mime:font/*,application/vnd.ms-fontobject"
+                @change="addFont"
+                 :validation-messages="{
+                    mime: 'Font format must be ttf, woff, woff2, or otf'
+                }"
                 multiple
             />
         </div>
@@ -32,26 +33,15 @@
 
         <h1>Colors</h1>
         <div class="colors-list">
-            <div>
+            <div v-for="(color, i) of colors" :key="i">
                 <channel-color-picker 
                     class="color-item"
                     :color="color" 
-                    @color-change="colorChanged" />
-                <button>&times;</button>
+                    @color-change="colorChanged($event, i)" />
+                <button class="close-button" @click="removeColor(i)">&times;</button>
             </div>
             <div>
-                <channel-color-picker 
-                    class="color-item"
-                    :color="color" 
-                    @color-change="colorChanged" />
-                <button>&times;</button>
-            </div>
-            <div>
-                <channel-color-picker 
-                    class="color-item"
-                    :color="color" 
-                    @color-change="colorChanged" />
-                <button>&times;</button>
+                <button class="w-full outline-none p-4 border-2 border-gray-400 border-dashed rounded-lg uppercase hover:text-green-500 hover:border-green-500 mr-10" @click="addColor">Add Color</button>
             </div>
         </div>
 
@@ -66,18 +56,50 @@
 export default {
     data () {
         return {
-            color: { 
-                type: "cmyk",
-                channels: [5, 5, 5, 5]
-            }
+            colors: [
+                { 
+                    type: "cmyk",
+                    channels: [5, 5, 5, 5]
+                },
+                { 
+                    type: "cmyk",
+                    channels: [2, 2, 2, 2]
+                },
+            ],
+            fonts: [
+                { name: 'Arial' },
+                { name: 'Arial Narrow Bold' },
+                { name: 'Times New Roman' },
+            ]
         }
     },
     methods: {
-        colorChanged(color) {
-            this.color = color;
-            console.log(color)
-            this.color.type = 'rgb'
-            console.log(this.color)
+        fontUploader (files) {
+            
+            console.log('from font uploader')
+            console.log(files)
+
+        },
+        addFont (e) {
+
+            const files = e.target.files
+            console.log(files)
+            
+        },
+        deleteFont (index) {
+            this.fonts.splice(index, 1)
+        },
+        colorChanged (color, index) {
+            this.colors.splice(index, 1, color)
+        },
+        removeColor (index) {
+            this.colors.splice(index, 1)
+        },
+        addColor () {
+            this.colors.push({
+                type: "cmyk",
+                channels: [100,100,100,100]
+            })
         }
     }
 }
@@ -93,9 +115,8 @@ export default {
         @apply flex items-center justify-between p-4 border border-t-0;
     }
 
-    .font-list > div > button, .colors-list > div > button {
+    .close-button {
         @apply outline-none text-red-500 p-4; 
-
     }
 
     .font-list > div > span {

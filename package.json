@@ -17,11 +17,14 @@
     "nuxt": "^2.14.6",
     "pdf-lib": "^1.11.2",
     "pdfjs-dist": "^2.5.207",
+    "postcss": "^8.3.4",
+    "tailwindcss": "^2.1.4",
     "vue-channel-color-picker": "^0.4.2",
     "vue-multiselect": "^2.1.6"
   },
   "devDependencies": {
-    "@nuxtjs/tailwindcss": "^3.1.0",
+    "@nuxtjs/svg": "^0.1.12",
+    "@nuxtjs/tailwindcss": "^3.4.3",
     "eslint-config-prettier": "^6.12.0",
     "eslint-plugin-prettier": "^3.1.4",
     "fibers": "^5.0.0",

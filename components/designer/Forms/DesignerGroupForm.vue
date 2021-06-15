@@ -1,7 +1,5 @@
 <template>
-    <FormulateForm
-        v-if="activeItem.type === type.GROUP"
-    >
+    <FormulateForm>
         <FormulateInput
             type="text"
             name="Name"

@@ -1,8 +1,5 @@
 <template>
-    <FormulateForm
-        v-if="activeItem.type === type.PAGE"
-        
-    >
+    <FormulateForm>
         <FormulateInput
             type="text"
             name="Name"
