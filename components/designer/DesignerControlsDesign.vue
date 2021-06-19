@@ -79,8 +79,6 @@ import DesignerContainerForm from '~/components/designer/Forms/DesignerContainer
 import DesignerGroupForm from '~/components/designer/Forms/DesignerGroupForm'
 import DesignerTextForm from '~/components/designer/Forms/DesignerTextForm'
 
-import { mapState } from 'vuex'
-
 export default {
     components: { DesignerOutlineTree, DesignerPageForm, DesignerContainerForm, DesignerGroupForm, DesignerTextForm },
     mixins: [ DesignerMixin ],
@@ -98,12 +96,6 @@ export default {
             return this.type[type] === this.activeItem.type
         }
     },
-    computed: {         
-        ...mapState({
-            activeItem: state => state.designer.activeItem,
-            pages: state => state.designer.pages
-        })
-    }
 }
 </script>
 

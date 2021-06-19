@@ -4,12 +4,12 @@
     <div
         :key="i"
         v-for="(page, i) of pages"
-        @click.self="changeActive(page)"
+        @click.self="updateActive(page)"
         :style="{
             width: '500px',
             height: '300px'
         }"
-        :class="['my-8 bg-white relative', {
+        :class="['my-8 bg-white relative overflow-hidden', {
             'border border-blue-500': activeItem.title === page.title,
             'border hover:border-green-400 cursor-pointer': activeItem.title !== page.title
         }]"
@@ -27,7 +27,7 @@
                 'border border-blue-500': activeItem.title === container.title,
                 'border hover:border-green-400 cursor-pointer': activeItem.title !== container.title
             }]"
-            @click.self="changeActive(container)" 
+            @click.self="updateActive(container)" 
             v-for="(container, i) of page.children" 
             :key="i"
         >
@@ -43,7 +43,6 @@
 <script>
 
 import DesignerMixin from '~/mixins/designer'
-import { mapState, mapMutations } from 'vuex'
 
 export default {
     mixins: [ DesignerMixin ],
@@ -52,27 +51,6 @@ export default {
 
         }
     },
-    methods: {
-        changeActive (item) {
-            this.updateActive(item)
-        },
-        ...mapMutations({
-            updateActive: 'designer/update_active'
-        })
-    },
-    computed: {   
-        designer_mode () {
-            return this.activeSection === 'Design'
-        },      
-        ...mapState({
-            activeSection: state => state.designer.activeSection,
-            activeItem: state => state.designer.activeItem,
-            pages: state => state.designer.pages
-        })
-    },
-    created ( ) {
-        console.log(this.activeItem)
-    }
 }
 </script>
 

@@ -1,12 +1,16 @@
 <template>
-    <FormulateForm>
-
+    <FormulateForm
+        :key="refreshValues"
+    >
         <FormulateInput
             type="text"
             name="Name"
             label="Container Name"
             help="The name that appears for you"
             placeholder="Container 1"
+            @input="update({ value: $event, property: 'title' })"
+            :value="activeItem.title"
+
         />
 
         <div class="flex">
@@ -16,7 +20,7 @@
                 name="PositionX"
                 label="Position X"
                 placeholder="200"
-                @input="update('left', $event)"
+                @input="update({ key:'left', value: $event + 'px', property: 'style' })"
                 :value="parseInt(activeItem.style.left.replace('px', ''))"
             />
 
@@ -26,7 +30,7 @@
                 name="PositionY"
                 label="Position Y" 
                 placeholder="200"
-                @input="update('top', $event)"
+                @input="update({ key:'top', value: $event + 'px', property: 'style' })"
                 :value="parseInt(activeItem.style.top.replace('px', ''))"  
             />
         </div>
@@ -39,7 +43,7 @@
                 label="Width"
                 placeholder="200"
                 min="0"
-                @input="update('width', $event)"
+                @input="update({ key:'width', value: $event + 'px', property: 'style' })"
                 :value="parseInt(activeItem.style.width.replace('px', ''))"  
             />
 
@@ -50,7 +54,7 @@
                 label="Height"
                 placeholder="200" 
                 min="0"
-                @input="update('height', $event)"
+                @input="update({ key:'height', value: $event + 'px', property: 'style' })"
                 :value="parseInt(activeItem.style.height.replace('px', ''))"            
             />
         </div>
@@ -172,36 +176,8 @@
 </template>
 
 <script>
-
-import { mapState } from 'vuex'
-import DesignerMixin from '~/mixins/designer'
-
+import DesignerFormMixin from '~/mixins/designerForm'
 export default {
-    mixins: [ DesignerMixin ],
-    methods: {
-        update (key, val) {
-
-            console.log('key', key)
-            console.log('val', val)
-
-            // const active = this.activeItem
-            const pages = this.pages
-            
-            pages[0].children[0].style[key] = val + 'px'
-            this.$store.commit('designer/update_pages', pages)
-
-            // console.log(this.pages[0].children[0])
-            // console.log(this.pages[0].children[0].style[key])
-            
-
-
-        }
-    },
-    computed: {         
-        ...mapState({
-            activeItem: state => state.designer.activeItem,
-            pages: state => state.designer.pages,
-        })
-    }
+    mixins: [  DesignerFormMixin ],
 }
 </script>

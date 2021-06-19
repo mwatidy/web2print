@@ -1,3 +1,5 @@
+import { mapState, mapMutations } from 'vuex'
+
 export default {
     data () {
         return {
@@ -14,9 +16,19 @@ export default {
             }
         }
     },
-    computed: {
-        activeSection () {
-            return this.$store.state.designer.activeSection
-        }
-    }
+    methods: {
+        ...mapMutations({
+            updateActive: 'designer/update_active'
+        })
+    },
+    computed: {   
+        designer_mode () {
+            return this.activeSection === 'Design'
+        },      
+        ...mapState({
+            activeSection: state => state.designer.activeSection,
+            activeItem: state => state.designer.activeItem,
+            pages: state => state.designer.pages
+        })
+    },
 }

@@ -4,7 +4,7 @@
             <div 
                 @click="treeItemClick"
                 :class="['flex items-center p-2 cursor-pointer', 
-                    item.title === activeItem.title ? 'active-item' : 'hover:bg-blue-200'
+                    item.page === activeItem.page && item.path == activeItem.path ? 'active-item' : 'hover:bg-blue-200'
                     ]" 
                 :style="{ paddingLeft: (depth) + 'em',  whiteSpace: 'nowrap', width: 'fit-content', minWidth: '100%' }" 
             >
