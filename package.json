@@ -11,6 +11,7 @@
   "dependencies": {
     "@braid/vue-formulate": "^2.5.2",
     "@pdf-lib/fontkit": "^1.0.0",
+    "base64-arraybuffer": "^0.2.0",
     "color-convert": "^2.0.1",
     "core-js": "^3.6.5",
     "file-saver": "^2.0.2",

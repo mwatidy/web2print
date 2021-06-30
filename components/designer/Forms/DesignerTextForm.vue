@@ -1,11 +1,15 @@
 <template>
-    <FormulateForm>
+    <FormulateForm
+        :key="refreshValues"
+    >
         <FormulateInput
             type="text"
             name="Name"
             label="Input Name"
             help="The name that appears for you"
             placeholder="Input 1"
+            @input="update({ value: $event, property: 'title' })"
+            :value="activeItem.title"
         />
 
         <FormulateInput
@@ -193,19 +197,8 @@
 </template>
 
 <script>
-
-import { mapState } from 'vuex'
-import DesignerMixin from '~/mixins/designer'
-
+import DesignerFormMixin from '~/mixins/designerForm'
 export default {
-    mixins: [ DesignerMixin ],
-    computed: {         
-        ...mapState({
-            activeItem: state => state.designer.activeItem,
-        })
-    }
+    mixins: [  DesignerFormMixin ],
 }
 </script>
-
-
-

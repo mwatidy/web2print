@@ -1,7 +1,7 @@
 
-- Min and Max characters allowed 
+- Min and Max characters allowed
     * What's the longest name or shortest name
-    * Make it on container level 
+    * Make it on container level
 
 
 - Required to set the longest text
@@ -15,3 +15,4 @@
 
 - ROW: make align left, right, center, space evenly 
 - COL: make align left, right, center, space evenly
+

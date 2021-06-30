@@ -5,8 +5,8 @@
             <h1 class="p-4">Template</h1>
 
             <div class="flex items-center">
-                <button class="p-4 border"><Icon type="delete" /></button>
-                <button class="p-4 border"><Icon type="add" /></button>
+                <button class="p-4 border-l"><Icon type="delete" /></button>
+                <button class="p-4 border-l"><Icon type="add" /></button>
             </div>
 
             <!-- 
@@ -16,7 +16,7 @@
                 SHOW TREE ACTIONS FOR TEXT
                 
                  -->
-            <!-- <div class="flex items-center" v-if="typeIs(type.GROUP)">
+            <!-- <div class="flex items-center" v-if="typeIs(GROUP)">
                 <button class="p-4 border">A1</button>
                 <button class="p-4 border">A2</button>
             </div> -->
@@ -50,10 +50,10 @@
             <TreeIcon :icon="activeItem.type" width="30" height="30"/>
             <h1 class="text-xl font-bold pl-2 truncate"> {{ activeItem.title }} Properties </h1>
         </div>
-        <DesignerPageForm v-if="typeIs(type.PAGE)" />
-        <DesignerContainerForm v-if="typeIs(type.CONTAINER)" />
-        <DesignerGroupForm v-if="typeIs(type.GROUP)" />
-        <DesignerTextForm v-if="typeIs(type.TEXT)" />
+        <DesignerPageForm v-if="typeIs(PAGE)" />
+        <DesignerContainerForm v-if="typeIs(CONTAINER)" />
+        <DesignerGroupForm v-if="typeIs(GROUP)" />
+        <DesignerTextForm v-if="typeIs(TEXT)" />
 
         <button class="uppercase block bg-green-500 hover:bg-green-400 text-white w-full text-center p-4 my-8 font-bold rounded"> 
             Save
@@ -89,11 +89,10 @@ export default {
     },
     mounted () {
 
-
     },
     methods: {
         typeIs (type) {
-            return this.type[type] === this.activeItem.type
+            return this[type] === this.activeItem.type
         }
     },
 }

@@ -7,7 +7,7 @@ export default {
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: 'web2print',
+    title: 'Web 2 Print',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -20,7 +20,8 @@ export default {
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
-    '~/node_modules/@braid/vue-formulate/themes/snow/snow.scss'
+    '~/node_modules/@braid/vue-formulate/themes/snow/snow.scss',
+    '~/assets/style.css'
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
@@ -37,6 +38,10 @@ export default {
     '@nuxtjs/tailwindcss',
     '@braid/vue-formulate/nuxt',
   ],
+
+  router: {
+    middleware: 'main'
+  },
 
   formulate: {
     configPath: '~/assets/js/formulate.config.js'

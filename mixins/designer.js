@@ -3,22 +3,21 @@ import { mapState, mapMutations } from 'vuex'
 export default {
     data () {
         return {
+            PAGE: 'PAGE',
+            CONTAINER: 'CONTAINER',
+            GROUP: 'GROUP',
+            TEXT: 'TEXT',
             section: {
                 ASSETS: 'Assets',
                 DESIGN: 'Design',
                 TEST: 'Test'
             },
-            type: {
-                PAGE: 'PAGE',
-                CONTAINER: 'CONTAINER',
-                GROUP: 'GROUP',
-                TEXT: 'TEXT'
-            }
         }
     },
     methods: {
         ...mapMutations({
-            updateActive: 'designer/update_active'
+            updateActive: 'designer/update_active',
+            refreshDesign: 'designer/refresh',
         })
     },
     computed: {   
@@ -28,7 +27,8 @@ export default {
         ...mapState({
             activeSection: state => state.designer.activeSection,
             activeItem: state => state.designer.activeItem,
-            pages: state => state.designer.pages
+            pages: state => state.designer.pages,
+            refresh: state => state.designer.refresh
         })
-    },
+    }
 }

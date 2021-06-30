@@ -21,7 +21,7 @@
                 label="Position X"
                 placeholder="200"
                 @input="update({ key:'left', value: $event + 'px', property: 'style' })"
-                :value="parseInt(activeItem.style.left.replace('px', ''))"
+                :value="normalizeNumber('left')"
             />
 
             <FormulateInput
@@ -31,7 +31,7 @@
                 label="Position Y" 
                 placeholder="200"
                 @input="update({ key:'top', value: $event + 'px', property: 'style' })"
-                :value="parseInt(activeItem.style.top.replace('px', ''))"  
+                :value="normalizeNumber('top')"
             />
         </div>
 
@@ -44,7 +44,7 @@
                 placeholder="200"
                 min="0"
                 @input="update({ key:'width', value: $event + 'px', property: 'style' })"
-                :value="parseInt(activeItem.style.width.replace('px', ''))"  
+                :value="normalizeNumber('width')"
             />
 
             <FormulateInput
@@ -55,7 +55,7 @@
                 placeholder="200" 
                 min="0"
                 @input="update({ key:'height', value: $event + 'px', property: 'style' })"
-                :value="parseInt(activeItem.style.height.replace('px', ''))"            
+                :value="normalizeNumber('height')"
             />
         </div>
 
@@ -67,6 +67,9 @@
                 label="Min Width"
                 placeholder="200"
                 min="0"
+                @input="update({ key:'minWidth', value: $event + 'px', property: 'style' })"
+                :value="normalizeNumber('minWidth')"
+
             />
 
             <FormulateInput
@@ -76,6 +79,9 @@
                 label="Max Width"
                 placeholder="200" 
                 min="0"          
+                @input="update({ key:'maxWidth', value: $event + 'px', property: 'style' })"
+                :value="normalizeNumber('maxWidth')"
+
             />
         </div>
 
@@ -87,6 +93,8 @@
                 label="Min Height"
                 placeholder="200"
                 min="0"
+                @input="update({ key:'minHeight', value: $event + 'px', property: 'style' })"
+                :value="normalizeNumber('minHeight')"
             />
 
             <FormulateInput
@@ -95,7 +103,10 @@
                 name="MaxHeight"
                 label="Max Height"
                 placeholder="200" 
-                min="0"       
+                min="0"  
+                @input="update({ key:'maxHeight', value: $event + 'px', property: 'style' })"
+                :value="normalizeNumber('maxHeight')"
+     
             />
         </div>
 
@@ -107,6 +118,8 @@
                 type="number"
                 name="PaddingTop"
                 label="Top"
+                @input="update({ key:'paddingTop', value: $event + 'px', property: 'style' })"
+                :value="normalizeNumber('paddingTop')"
             />
 
             <FormulateInput
@@ -114,6 +127,9 @@
                 type="number"
                 name="PaddingBottom"
                 label="Bottom"
+                @input="update({ key:'paddingBottom', value: $event + 'px', property: 'style' })"
+                :value="normalizeNumber('paddingBottom')"
+
             />
 
             <FormulateInput
@@ -121,6 +137,9 @@
                 type="number"
                 name="PaddingRight"
                 label="Right"
+                @input="update({ key:'paddingRight', value: $event + 'px', property: 'style' })"
+                :value="normalizeNumber('paddingRight')"
+
             />
 
             <FormulateInput
@@ -128,6 +147,9 @@
                 type="number"
                 name="PaddingLeft"
                 label="Left"
+                @input="update({ key:'paddingLeft', value: $event + 'px', property: 'style' })"
+                :value="normalizeNumber('paddingLeft')"
+
             />
 
         </div>
@@ -140,8 +162,8 @@
             label="Overflow"
             :options="['Hide extra', 'Place on the next line']"
             help="If elements exceed width or height of container"
-        />
 
+        />
 
         <FormulateInput
             type="select"
@@ -151,19 +173,7 @@
             help="How will children elements be placed"
         />
 
-        <FormulateInput
-            type="select"
-            name="ElementPositionX"
-            label="Elements Positioning X Axis"
-            :options="['Beginning', 'End', 'Center', 'Space Between']"
-        />
-
-        <FormulateInput
-            type="select"
-            name="ElementPositionY"
-            label="Elements Positioning Y Axis"
-            :options="['Beginning', 'End', 'Center', 'Space Between']"
-        />
+        <alignment-select class="my-4" type="both" v-model="alignment" :value="'asd'" />
 
         <FormulateInput
             type="number"
@@ -177,7 +187,27 @@
 
 <script>
 import DesignerFormMixin from '~/mixins/designerForm'
+import AlignmentSelect from './AlignmentSelect.vue'
+
 export default {
+    components: { AlignmentSelect },
     mixins: [  DesignerFormMixin ],
+    data () {
+        return {
+            alignment: null
+        }
+    },
+    methods: {
+        normalizeNumber (key) {
+            if (!this.activeItem.style || !this.activeItem.style[key]) return null
+            return this.activeItem.style[key].replace('px', '')
+        }
+    },
+    watch: {
+        alignment (val) {
+            console.log(val)
+        }
+
+    }
 }
 </script>

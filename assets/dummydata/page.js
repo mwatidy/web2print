@@ -36,13 +36,15 @@ export default [
                    "path": '1/0',
                    "children":[
                       {
-                         "title":"SubGroup",
+                         "title":"group",
                          "type":"GROUP",
                          "page": 0,
                          "path": '1/0/0',
                          "children":[
                             {
-                               "title":"subtext",
+                              "page": 0,
+                              "path": '1/0/0/0',     
+                               "title":"Some",
                                "type":"TEXT"
                             }
                          ]
@@ -58,7 +60,7 @@ export default [
                       {
                         "page": 0,
                         "path": '1/1/0',
-                         "title":"subcontent 4 and some more info",
+                         "title":"content 4",
                          "type":"TEXT"
                       }
                    ]

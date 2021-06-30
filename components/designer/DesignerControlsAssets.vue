@@ -7,7 +7,7 @@
                 v-for="(font, i) of fonts" 
                 :key="i"
             >
-                <span>{{ font.name }}</span>
+                <span :style="{ fontFamily: `'${font.name}'` }">{{ font.name }}</span>
                 <button @click="deleteFont(i)" class="close-button">&times;</button>
             </div>
         </div>
@@ -15,15 +15,12 @@
             <FormulateInput
                 type="file"
                 name="file"
-                label="Upload Fonts"
-                help="Select one or more fonts"
+                label="Add Fonts"
+                ref="fontUploader"
+                help="Only ttf, otf, woff, woff2 allowed"
                 :uploader="fontUploader"
                 accept="font/*,application/vnd.ms-fontobject"
-                validation="mime:font/*,application/vnd.ms-fontobject"
                 @change="addFont"
-                 :validation-messages="{
-                    mime: 'Font format must be ttf, woff, woff2, or otf'
-                }"
                 multiple
             />
         </div>
@@ -37,15 +34,57 @@
                 <channel-color-picker 
                     class="color-item"
                     :color="color" 
-                    @color-change="colorChanged($event, i)" />
-                <button class="close-button" @click="removeColor(i)">&times;</button>
+                    @color-change="updateColor($event, i)" />
+                <button class="close-button" @click="deleteColor(i)">&times;</button>
             </div>
             <div>
-                <button class="w-full outline-none p-4 border-2 border-gray-400 border-dashed rounded-lg uppercase hover:text-green-500 hover:border-green-500 mr-10" @click="addColor">Add Color</button>
+                <button class="w-full outline-none p-4 border-2 border-gray-400 border-dashed rounded-lg uppercase hover:text-green-500 hover:border-green-500" @click="addColor">Add Color</button>
             </div>
         </div>
 
     </div>
+    <div class="seperator">&nbsp;</div>
+
+    <div class="section">
+        <h1>Styles</h1>
+        <div 
+            class="flex items-center p-4 border" 
+            v-for="(style, i) of styles" 
+            :key="i"
+        >
+            <div class="flex flex-grow flex-col">
+                <div class="flex">
+
+                </div>
+                    <FormulateInput
+                        class="w-9/12"
+                        label="Font"
+                        type="select"
+                        :options="fonts.filter(font => font.name).map(font => font.name)"
+                        :value="style.font"
+                        @input="updateStyle('font', i, $event)"
+                    />
+                    <FormulateInput
+                        class="w-3/12"
+                        label="Size"
+                        type="number"
+                        min="0"
+                        :value="style.size"
+                        @input="updateStyle('size', i, $event)"
+                    />
+                <div>
+                    <label class="text-sm font-bold ml-2">Color</label>
+                    <color-select :colors="colors" :value="style.color" @input="updateStyle('color', i, $event)" />
+                </div>
+
+            </div>
+            <button @click="deleteStyle(i)" class="close-button">&times;</button>
+        </div>
+        <div>
+            <button class="w-full outline-none mt-6 p-4 border-2 border-gray-400 border-dashed rounded-lg uppercase hover:text-green-500 hover:border-green-500 mr-10" @click="addStyle">Add Style</button>
+        </div>
+    </div>
+
     <div class="seperator">&nbsp;</div>
 
 </div>
@@ -53,54 +92,129 @@
 
 <script>
 
+const convert = require('color-convert');
+import 'vue-multiselect/dist/vue-multiselect.min.css'
+import ColorSelect from './Forms/ColorSelect.vue';
+
+import { mapState, mapMutations, mapActions } from 'vuex'
+import { arrayBufferToBase64 } from '~/assets/js/file_handlers'
+
 export default {
-    data () {
+  components: { ColorSelect },
+  data () {
         return {
-            colors: [
-                { 
-                    type: "cmyk",
-                    channels: [5, 5, 5, 5]
-                },
-                { 
-                    type: "cmyk",
-                    channels: [2, 2, 2, 2]
-                },
-            ],
-            fonts: [
-                { name: 'Arial' },
-                { name: 'Arial Narrow Bold' },
-                { name: 'Times New Roman' },
-            ]
+            fontFiles: [],
+            selectedColor: undefined,
         }
     },
     methods: {
-        fontUploader (files) {
+        fontUploader () {
+            return Promise.resolve({})
+        },
+        updateColor (color, index) {
+
+            const rgb = convert.cmyk.rgb(color.channels)
+            color.css = `rgb(${rgb.join(',')})`
             
-            console.log('from font uploader')
-            console.log(files)
+            this.editAsset({
+                index,
+                key: 'colors',
+                value: color
+            })
 
         },
-        addFont (e) {
+        updateStyle (key, index, value) {
 
-            const files = e.target.files
-            console.log(files)
+            const style = { ...this.styles[index] }
+            style[key] = value
+
+            this.editAsset({
+                index,
+                key: 'styles',
+                value: style
+            })
+
+        },
+        async addFont (e) {
             
-        },
-        deleteFont (index) {
-            this.fonts.splice(index, 1)
-        },
-        colorChanged (color, index) {
-            this.colors.splice(index, 1, color)
-        },
-        removeColor (index) {
-            this.colors.splice(index, 1)
+            const fonts = e.target.files
+            const failedFonts = []
+
+            for (const fontFile of fonts) {
+                
+                const [ extension, ...fontName ] = fontFile.name.split('.').reverse()
+                const name = fontName.join('.')
+
+                const fontExists = this.fonts.findIndex(font => font.name === name)
+                if (fontExists > -1) continue
+
+                const fontData = await fontFile.arrayBuffer()
+                const allowedExtensions = ['ttf', 'otf', 'woff', 'woff2']
+                if (allowedExtensions.indexOf(extension.toLowerCase()) == -1) {
+                    failedFonts.push(name)
+                    continue 
+                }
+
+                const font = new FontFace(name, fontData);
+                await font.load();
+                document.fonts.add(font);
+
+                const base64 = await arrayBufferToBase64(fontData)
+                this.addAsset({ key: 'fonts', value: {
+                    name, 
+                    fontData: base64
+                }})
+                
+
+            }
+
+            this.$nextTick(() => {
+                document.querySelectorAll('.formulate-file-remove').forEach(e => e.click())
+            })
+
+            return true
+
         },
         addColor () {
-            this.colors.push({
+            this.addAsset({ key: 'colors', value: {
                 type: "cmyk",
-                channels: [100,100,100,100]
-            })
-        }
+                channels: [100,100,100,100],
+                css: 'rgb(0,0,0)'
+            }})
+        },
+        addStyle () {
+            this.addAsset({ key: 'styles', value: {
+                font: this.fonts && this.fonts[0],
+                color: this.colors && this.colors[0],
+                size: 12
+            }})
+            // {
+            //     type: "cmyk",
+            //     channels: [100,100,100,100],
+            //     css: 'rgb(0,0,0)'
+            // },
+
+        },
+        deleteFont (index) {
+            this.editAsset({ key: 'fonts', index })
+        },
+        deleteColor (index) {
+            this.editAsset({ key: 'colors', index })
+        },
+        deleteStyle (index) {
+            this.styles.splice(index, 1)
+        },
+        ...mapMutations({
+            addAsset: 'designer/push_to_state',
+            editAsset: 'designer/splice_from_state',
+        })
+    },
+    computed: {
+        ...mapState({
+            fonts: state => state.designer.fonts,
+            colors: state => state.designer.colors,
+            styles: state => state.designer.styles,
+        })
     }
 }
 </script>
@@ -121,14 +235,6 @@ export default {
 
     .font-list > div > span {
         @apply text-xl py-2 pl-4;
-    }
-
-    .font-list div:nth-child(2) > span {
-        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    }
-
-    .font-list div:nth-child(3) > span {
-        font-family: 'Times New Roman', Times, serif;
     }
 
     .uploader {
@@ -167,18 +273,18 @@ export default {
     }
 
     .colors-list >>> .sb-color_picker-picker {
-        @apply shadow-lg; 
-        border: 1px solid #DDD;
+        @apply shadow-lg ; 
         padding: 2rem;
         z-index: 999;
+    }
+
+    .colors-list >>> .sb-color_picker-current {
+        @apply border;
     }
 
     .colors-list >>> .sb-color-values input { 
         @apply border;
     }
-
-
-
 
 
 </style>

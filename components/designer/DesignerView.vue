@@ -1,5 +1,7 @@
 <template>
-<div class="designer-view w-screen lg:w-full lg:h-screen flex flex-col items-center p-8">
+<div 
+    :key="refresh"
+    class="designer-view w-screen lg:w-full lg:h-screen flex flex-col items-center p-8">
 
     <div
         :key="i"
@@ -9,29 +11,26 @@
             width: '500px',
             height: '300px'
         }"
-        :class="['my-8 bg-white relative overflow-hidden', {
-            'border border-blue-500': activeItem.title === page.title,
-            'border hover:border-green-400 cursor-pointer': activeItem.title !== page.title
-        }]"
+        :class="['my-8 bg-white relative overflow-hidden', 
+            samePage(page) ? 'border border-blue-500' : 'border hover:border-green-400 cursor-pointer'
+        ]"
     >
         <span :class="['text-gray-700 text-xs absolute top-0 left-0 -mt-6', {
-            'text-blue-500': activeItem.title === page.title
+            'text-blue-500': samePage(page)
         }]">
             {{ page.title }}
         </span>
         <div 
-            :style="{
-                ...container.style
-            }" 
+            :style="container.style" 
             :class="['absolute border border-blue-200 p-4', {
-                'border border-blue-500': activeItem.title === container.title,
-                'border hover:border-green-400 cursor-pointer': activeItem.title !== container.title
+                'border border-blue-500': samePage(container) && sameItem(container),
+                'border hover:border-green-400 cursor-pointer': !(samePage(container) && sameItem(container))
             }]"
             @click.self="updateActive(container)" 
             v-for="(container, i) of page.children" 
             :key="i"
         >
-
+            <!-- <span class="text-gray-700">more content</span> -->
 
         </div>
     </div>
@@ -51,6 +50,14 @@ export default {
 
         }
     },
+    methods: {
+        samePage (item) {
+            return item.page === this.activeItem.page
+        },
+        sameItem (item) {
+            return item.path == this.activeItem.path
+        }
+    }
 }
 </script>
 

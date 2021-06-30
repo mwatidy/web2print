@@ -8,7 +8,7 @@
                     ]" 
                 :style="{ paddingLeft: (depth) + 'em',  whiteSpace: 'nowrap', width: 'fit-content', minWidth: '100%' }" 
             >
-                    <TreeIcon :icon="type[item.type]" />
+                    <TreeIcon :icon="this[item.type]" />
                     <span class="pl-2">{{ item.title }}</span>
             </div>
             <div v-if="item.children">
@@ -32,11 +32,6 @@ import { mapMutations, mapState } from 'vuex'
 export default {
     // components: { DesignerOutlineTreeItem: () => import('~/components/designer/Tree/DesignerOutlineTreeItem.vue') },
     mixins: [ DesignerMixin ],
-    data () {
-        return {
-            depth: 0
-        }
-    },
     props: {
         item: {
             type: Object
@@ -52,42 +47,47 @@ export default {
         treeItemClick () {
 
             this.setActive({ ...this.item })
-
-            // console.log(this.depth)
-            // console.log(this.item)
-
         }
     },
     computed: {
+        depth () {
+
+            if (!this.item.path) return 1
+            return this.item.path.split('/').length + 1
+
+        },
         ...mapState({
             activeItem: state => state.designer.activeItem
         })
     },
-    mounted () {
+    // mounted () {
         
         // GET THE ELEMENTS DEPTH FOR PADDING CALCULATION
 
-        const elem = this.$refs.text
-        let parent = elem.parentElement
+        // const elem = this.$refs.text
+        // let parent = elem.parentElement
 
-        if (parent.classList.contains('parent')) return this.depth = 1
+        // if (parent.classList.contains('parent')) return this.depth = 1
 
-        this.depth = 0
-        while (true) {
+        // this.depth = 0
 
-            this.depth += 1
-            parent = parent.parentElement
+        
 
-            if (parent.classList.contains('parent'))  {
+        // while (true) {
 
-                this.depth = (this.depth / 3) + 1
-                break;
+        //     this.depth += 1
+        //     parent = parent.parentElement
 
-            }
+        //     if (parent.classList.contains('parent'))  {
 
-        }
+        //         this.depth = (this.depth / 3) + 1
+        //         break;
 
-    }
+        //     }
+
+        // }
+
+    // }
 }
 </script>
 

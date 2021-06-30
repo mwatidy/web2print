@@ -1,11 +1,15 @@
 <template>
-    <FormulateForm>
+    <FormulateForm
+        :key="refreshValues"
+    >
         <FormulateInput
             type="text"
             name="Name"
             label="Group Name"
             help="The name that appears for you"
             placeholder="Group 1"
+            @input="update({ value: $event, property: 'title' })"
+            :value="activeItem.title"
         />
 
 
@@ -18,6 +22,9 @@
                 type="number"
                 name="PaddingTop"
                 label="Top"
+                @input="update({ key:'paddingTop', value: $event + 'px', property: 'style' })"
+                :value="parseInt(activeItem.style && activeItem.style.paddingTop && activeItem.style && activeItem.style.paddingTop.replace('px', ''))"
+
             />
 
             <FormulateInput
@@ -25,6 +32,9 @@
                 type="number"
                 name="PaddingBottom"
                 label="Bottom"
+                @input="update({ key:'paddingBottom', value: $event + 'px', property: 'style' })"
+                :value="parseInt(activeItem.style && activeItem.style.paddingBottom && activeItem.style && activeItem.style.paddingBottom.replace('px', ''))"
+
             />
 
             <FormulateInput
@@ -32,6 +42,9 @@
                 type="number"
                 name="PaddingRight"
                 label="Right"
+                @input="update({ key:'paddingRight', value: $event + 'px', property: 'style' })"
+                :value="parseInt(activeItem.style && activeItem.style.paddingRight && activeItem.style && activeItem.style.paddingRight.replace('px', ''))"
+
             />
 
             <FormulateInput
@@ -39,10 +52,12 @@
                 type="number"
                 name="PaddingLeft"
                 label="Left"
+                @input="update({ key:'paddingLeft', value: $event + 'px', property: 'style' })"
+                :value="parseInt(activeItem.style && activeItem.style.paddingLeft && activeItem.style && activeItem.style.paddingLeft.replace('px', ''))"
+
             />
 
         </div>
-
 
 
         <FormulateInput
@@ -91,17 +106,8 @@
 </template>
 
 <script>
-
-import { mapState } from 'vuex'
-import DesignerMixin from '~/mixins/designer'
-
+import DesignerFormMixin from '~/mixins/designerForm'
 export default {
-    mixins: [ DesignerMixin ],
-    computed: {         
-        ...mapState({
-            activeItem: state => state.designer.activeItem,
-        })
-    }
+    mixins: [  DesignerFormMixin ],
 }
 </script>
-

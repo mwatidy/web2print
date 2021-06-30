@@ -18921,7 +18921,7 @@ class MarkupAnnotation extends Annotation {
       this.data.replyType = (0, _primitives.isName)(rt) ? rt.name : _util.AnnotationReplyType.REPLY;
     }
 
-    if (this.data.replyType === _util.AnnotationReplyType.GROUP) {
+    if (this.data.replyType === _util.AnnotationReplyGROUP) {
       const parent = dict.get("IRT");
       this.data.title = (0, _util.stringToPDFString)(parent.get("T") || "");
       this.setContents(parent.get("Contents"));
@@ -19298,7 +19298,7 @@ class PopupAnnotation extends Annotation {
     this.data.parentId = (0, _primitives.isRef)(rawParent) ? rawParent.toString() : null;
     const rt = parentItem.get("RT");
 
-    if ((0, _primitives.isName)(rt, _util.AnnotationReplyType.GROUP)) {
+    if ((0, _primitives.isName)(rt, _util.AnnotationReplyGROUP)) {
       parentItem = parentItem.get("IRT");
     }
 

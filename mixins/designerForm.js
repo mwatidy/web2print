@@ -16,6 +16,7 @@ export default {
         ...mapState({
             activeItem: state => state.designer.activeItem,
             pages: state => state.designer.pages,
+            refresh: state => state.designer.refresh
         })
     },
     watch: {
