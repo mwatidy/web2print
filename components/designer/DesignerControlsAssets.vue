@@ -53,8 +53,13 @@
             :key="i"
         >
             <div class="flex flex-grow flex-col">
-                <div class="flex">
-
+                <div class="flex flex-col mb-6 mt-4">
+                    <label class="text-sm font-bold">Style Display</label>
+                    <span :style="{
+                        fontFamily: `'${style.font}'`,
+                        fontSize: `${style.size}px`,
+                        color: style.color.css
+                    }"> style {{ i + 1 }}</span>
                 </div>
                     <FormulateInput
                         class="w-9/12"

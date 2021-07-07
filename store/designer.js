@@ -6,6 +6,8 @@ export const state = () => ({
     refresh: false,
     activeSection: 'Design',
     activeItem: pages[0],
+    activeItemPath: null,
+    activePage: 0,
     pages: pages,
     assetsLoaded: false,
     fonts: [],
@@ -14,19 +16,34 @@ export const state = () => ({
 })
 
 export const getters = {
-    activeItem: state => state.activeItem
+    activeItem: state => {
+
+        const path = state.activeItemPath
+        const page = state.activePage
+
+        if (page) {
+
+            if (!path) state.pages[page]
+
+            
+
+        } else {
+            return null
+        }
+
+    } 
 }
 
 export const mutations = {
 
     update_state (state, { key, value }) {
         state[key] = value
-        localStorage.setItem(key, JSON.stringify(state[key]))
+        if (['fonts','styles','colors'].indexOf(key) > -1) localStorage.setItem(key, JSON.stringify(state[key]))
     },
 
     push_to_state (state, { key, value }) {
         state[key].push(value)
-        localStorage.setItem(key, JSON.stringify(state[key]))
+        if (['fonts','styles','colors'].indexOf(key) > -1) localStorage.setItem(key, JSON.stringify(state[key]))
     },
 
     splice_from_state (state, { index, key, value }) {
@@ -34,7 +51,7 @@ export const mutations = {
         if (value) state[key].splice(index, 1, value)
         else  state[key].splice(index, 1)
 
-        localStorage.setItem(key, JSON.stringify(state[key]))
+        if (['fonts','styles','colors'].indexOf(key) > -1) localStorage.setItem(key, JSON.stringify(state[key]))
     },
     
     update_pages (state, pages) {
@@ -46,13 +63,19 @@ export const mutations = {
         const child = item ? item : state.activeItem
 
         let pageIndex = child.page
-        let childIndex = (child.path ? 'children[' + child.path.split('/').join('].children[') + '].' : '') 
+        let childIndex = (child.path ? 'children[' + child.path.split('/').join('].children[') + ']' : '') 
         
-        if (key) childIndex += `${property}[${key}]`
-        else childIndex += property
+        let childProperty
+        if (key) childProperty = childIndex + `.${property}[${key}]`
+        else childProperty = childIndex + `.${property}`
 
-        _.update(state.pages[pageIndex], childIndex, _ => value)
+        _.update(state.pages[pageIndex], childProperty, _ => value)
+        const element = _.get(state.pages[pageIndex], childIndex)
+        
         state.refresh = !state.refresh
+        state.activeItem = element
+
+        console.log(element)
         
     },
 

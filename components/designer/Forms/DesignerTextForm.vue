@@ -1,6 +1,5 @@
 <template>
     <FormulateForm
-        :key="refreshValues"
     >
         <FormulateInput
             type="text"
@@ -17,30 +16,39 @@
             name="Editable"
             label="Can users edit it"
             :options="['yes', 'no']"
-        />
-
-        <!-- IF EDITABLE - show poperties and validation else show only style -->
-
-        <FormulateInput
-            type="text"
-            name="Help"
-            label="Input Title"
-            help="Title that appears for users"
-        />
-
-        <FormulateInput
-            type="text"
-            name="Help"
-            label="Input Description"
-            help="Help text that appears for users"
+            @input="update({ value: $event, property: 'canEdit' })"
+            :value="activeItem.canEdit"
         />
 
         <FormulateInput
             type="select"
             name="Type"
             label="Type"
-            :options="['Text', 'Seclection']"
+            :options="['text', 'selection']"
             help="How the user inputs the value"
+            v-if="activeItem.canEdit == 'yes'"
+            @input="update({ value: $event, property: 'inputType' })"
+            :value="activeItem.inputType"
+        />
+
+        <!-- IF EDITABLE - show poperties and validation else show only style -->
+
+        <FormulateInput
+            type="text"
+            label="Input Title"
+            help="Title that appears for users"
+            v-if="activeItem.canEdit == 'yes'"
+            @input="update({ value: $event, property: 'inputTitle' })"
+            :value="activeItem.inputTitle"
+        />
+
+        <FormulateInput
+            type="text"
+            label="Input Description"
+            help="Help text that appears for users"
+            v-if="activeItem.canEdit == 'yes'"
+            @input="update({ value: $event, property: 'inputHelp' })"
+            :value="activeItem.inputHelp"
         />
 
         
@@ -48,24 +56,34 @@
         <FormulateInput
             type="text"
             name="Value"
-            label="Default Value (Text)"
+            label="Default Value"
             help="This will be set by default"
+            @input="update({ value: $event, property: 'inputValue' })"
+            :value="activeItem.inputValue"
+            v-if="activeItem.canEdit == 'no' 
+                || activeItem.inputType == 'text'"
+
         />
 
         <!-- IF SELECTION -->
-        <div class="flex">
-            <FormulateInput
-                type="select"
-                name="Value"
-                class="mr-4"
-                label="Default Value (Select)"
-                :options="['Option1', 'Option2']"
-                help="This will be set by default"
-            />
-            <button class="border w-10 h-10 mt-6">
-                +
-            </button>
-        </div>
+        <FormulateInput
+            type="group"
+            name="selctionOptions"
+            :repeatable="true"
+            label="Selection choices"
+            add-label="+ Add Option"
+            @input="update({ value: $event, property: 'inputSelections' })"
+            :value="activeItem.inputSelections"
+            v-if="activeItem.canEdit == 'yes' 
+                && activeItem.inputType == 'selection'"
+
+            
+        >
+          <FormulateInput
+            class="pt-4"
+            name="selectOption"
+          />
+      </FormulateInput>
 
 
         <h1 class="font-bold pt-0 pb-4">Space around element</h1>
@@ -76,6 +94,8 @@
                 type="number"
                 name="PaddingTop"
                 label="Top"
+                @input="update({ key:'paddingTop', value: $event + 'px', property: 'style' })"
+                :value="normalizeNumber('paddingTop')"
             />
 
             <FormulateInput
@@ -83,6 +103,9 @@
                 type="number"
                 name="PaddingBottom"
                 label="Bottom"
+                @input="update({ key:'paddingBottom', value: $event + 'px', property: 'style' })"
+                :value="normalizeNumber('paddingBottom')"
+
             />
 
             <FormulateInput
@@ -90,6 +113,9 @@
                 type="number"
                 name="PaddingRight"
                 label="Right"
+                @input="update({ key:'paddingRight', value: $event + 'px', property: 'style' })"
+                :value="normalizeNumber('paddingRight')"
+
             />
 
             <FormulateInput
@@ -97,30 +123,11 @@
                 type="number"
                 name="PaddingLeft"
                 label="Left"
+                @input="update({ key:'paddingLeft', value: $event + 'px', property: 'style' })"
+                :value="normalizeNumber('paddingLeft')"
+
             />
-
         </div>
-
-        <h1 class="font-bold pt-0 pb-4">Styles</h1>
-        <FormulateInput
-            type="select"
-            name="FontFamily"
-            label="Font Family"
-            :options="['Font 1', 'Font 2']"
-        />
-
-        <FormulateInput
-            type="number"
-            name="FontSize"
-            label="Font Size"
-            min="1"
-        />
-
-        <FormulateInput
-            type="select"
-            name="FontColor"
-            :options="['Color 1', 'Color 2']"
-        />
 
         <div class="flex">
             <FormulateInput
@@ -130,6 +137,9 @@
                 label="Min Width"
                 placeholder="200"
                 min="0"
+                @input="update({ key:'minWidth', value: $event + 'px', property: 'style' })"
+                :value="normalizeNumber('minWidth')"
+
             />
 
             <FormulateInput
@@ -139,36 +149,64 @@
                 label="Max Width"
                 placeholder="200" 
                 min="0"          
+                @input="update({ key:'maxWidth', value: $event + 'px', property: 'style' })"
+                :value="normalizeNumber('maxWidth')"
+
             />
         </div>
 
 
-        <FormulateInput
+        <!-- <h1 class="font-bold pt-0 pb-4">Style</h1> -->
+
+        <style-select 
+            class="my-4"  
+            @input="update({ value: $event, property: 'style' })"
+            :value="activeItem.style"
+        />
+
+
+
+
+        <!-- <FormulateInput
             type="select"
             name="Overflow"
             label="Overflow"
             :options="['Decrease font size', 'Create new line', 'Hide']"
             help="How will children elements be placed"
-        />
+        /> -->
 
-        <FormulateInput
+        <!-- <FormulateInput
             type="text"
             name="Format"
             label="Format Input"
             placeholder="[xx], [xx]" 
-            min="0"          
-        />
+            min="0"
+            v-if="activeItem.canEdit == 'yes'"
+        /> -->
 
 
-        <h1 class="font-bold pt-0 pb-4">Validation</h1>
+        <!-- <h1 
+            class="font-bold pt-0 pb-4"
+            v-if="activeItem.canEdit == 'yes'"
+        >
+            Validation
+        </h1> -->
+
         <FormulateInput
             type="select"
             name="Validation"
             label="Validation"
             :options="['Text', 'Number', 'Date', 'Telepone', 'Mobile', 'Regular Exporession']"
+            @input="update({ value: $event, property: 'validationType' })"
+            :value="activeItem.validationType"
+            v-if="activeItem.canEdit == 'yes'"
         />
 
-        <div class="flex">
+<!-- 
+        <div 
+            class="flex"
+            v-if="activeItem.canEdit == 'yes'"
+        >
             <FormulateInput
                 class="mr-4"
                 type="number"
@@ -184,14 +222,8 @@
                 label="Max Characters"
                 placeholder="4"     
             />
-        </div>
+        </div> -->
 
-
-
-
-
-
-        
 
     </FormulateForm>
 </template>

@@ -1,5 +1,6 @@
 <template>
     <div :class="$props.class">
+        <label class="font-bold text-sm block pb-2">Align Elements</label>
         <div v-if="showHorizontal" class="flex">
             <button 
                 :key="button.icon"
@@ -52,17 +53,19 @@ export default {
         },
         value: {
             type: Object,
-            validator: (val) => {
-                if (typeof val !== 'object') return false
-                if (type === 'horizontal') return !!val.selectedHorizontal
-                else if (type === 'both') return !!val.selectedVertical
-                else return !!val.selectedHorizontal && !!val.selectedVertical
-            }
+            validator: (val) => typeof val === 'object'
+                // if () return false
+                // if (this.type === 'horizontal') return !!val.selectedHorizontal
+                // else if (this.type === 'both') return !!val.selectedVertical
+                // else return !!val.selectedHorizontal && !!val.selectedVertical
+            // }
         }
     },
     mounted () {
-        // this.selectedHorizontal = this.value.selectedHorizontal
-        // this.selectedVertical = this.value.selectedVertical
+        if (this.value) {
+            this.selectedHorizontal = this.value.selectedHorizontal
+            this.selectedVertical = this.value.selectedVertical
+        }
     },
     data () {
         return {

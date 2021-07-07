@@ -27,6 +27,7 @@ export default {
     },
     mounted () {
 
+        if (!this.value || !this.value.css) return
         const index = this.colors.findIndex( color => color.css === this.value.css )
         this.selectedIndex = index
         this.selected = this.colors[index]

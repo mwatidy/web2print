@@ -45,7 +45,9 @@ export default [
                               "page": 0,
                               "path": '1/0/0/0',     
                                "title":"Some",
-                               "type":"TEXT"
+                               "type":"TEXT",
+                               canEdit: false,
+                               inputType: 'text'
                             }
                          ]
                       }
@@ -61,7 +63,9 @@ export default [
                         "page": 0,
                         "path": '1/1/0',
                          "title":"content 4",
-                         "type":"TEXT"
+                         "type":"TEXT",
+                         canEdit: false,
+                         inputType: 'text'
                       }
                    ]
                 }

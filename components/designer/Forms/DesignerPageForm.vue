@@ -1,6 +1,5 @@
 <template>
     <FormulateForm
-        :key="refreshValues"
     >
         <FormulateInput
             type="text"

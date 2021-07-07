@@ -11,6 +11,10 @@ export default {
         ...mapMutations({
             update: 'designer/update_child'
         }),
+        normalizeNumber (key) {
+            if (!this.activeItem.style || !this.activeItem.style[key]) return null
+            return this.activeItem.style[key].replace('px', '')
+        }
     },
     computed: {
         ...mapState({
@@ -20,7 +24,10 @@ export default {
         })
     },
     watch: {
-        activeItem () {
+        // activeItem () {
+        //     this.refreshValues = !this.refreshValues
+        // },
+        refresh () {
             this.refreshValues = !this.refreshValues
         }
     }

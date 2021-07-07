@@ -1,6 +1,5 @@
 <template>
     <FormulateForm
-        :key="refreshValues"
     >
         <FormulateInput
             type="text"
@@ -59,7 +58,7 @@
             />
         </div>
 
-        <div class="flex">
+        <!-- <div class="flex">
             <FormulateInput
                 class="mr-4"
                 type="number"
@@ -108,7 +107,7 @@
                 :value="normalizeNumber('maxHeight')"
      
             />
-        </div>
+        </div> -->
 
         <h1 class="font-bold pt-0 pb-4">Space inside container</h1>
         <div class="flex">
@@ -165,15 +164,13 @@
 
         />
 
-        <FormulateInput
+        <!-- <FormulateInput
             type="select"
             name="ElementAxis"
             label="Elements placing"
             :options="['Next to each other', 'Below each other']"
             help="How will children elements be placed"
-        />
-
-        <alignment-select class="my-4" type="both" v-model="alignment" :value="'asd'" />
+        /> -->
 
         <FormulateInput
             type="number"
@@ -182,32 +179,36 @@
             help="space between elements"
         />
 
+        <alignment-select class="my-4" type="vertical" v-model="alignment"  />
+
+        <!-- <style-select class="my-4"  /> -->
+        <!-- :value="{ x: 1 }" -->
+
+
+
     </FormulateForm>
 </template>
 
 <script>
 import DesignerFormMixin from '~/mixins/designerForm'
 import AlignmentSelect from './AlignmentSelect.vue'
+import StyleSelect from './StyleSelect.vue'
 
 export default {
-    components: { AlignmentSelect },
+    components: { AlignmentSelect, StyleSelect },
     mixins: [  DesignerFormMixin ],
     data () {
         return {
             alignment: null
         }
     },
-    methods: {
-        normalizeNumber (key) {
-            if (!this.activeItem.style || !this.activeItem.style[key]) return null
-            return this.activeItem.style[key].replace('px', '')
-        }
-    },
-    watch: {
-        alignment (val) {
-            console.log(val)
-        }
+    // methods: {
 
-    }
+    // },
+    // watch: {
+    //     alignment (val) {
+    //         console.log(val)
+    //     }
+    // }
 }
 </script>

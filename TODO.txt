@@ -1,4 +1,15 @@
 
+-- NOTES --
+
+Container elements are flex-col
+Group elements are flex-row
+
+Groups should also have width, height, and padding settings
+Characters could be calculated automatically and displayed to the designer
+
+
+------------
+
 - Min and Max characters allowed
     * What's the longest name or shortest name
     * Make it on container level
