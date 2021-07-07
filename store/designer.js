@@ -2,6 +2,13 @@ import pages from '~/assets/dummydata/page'
 import _ from 'lodash'
 import { arrayBufferToBase64, base64ToArrayBuffer } from '~/assets/js/file_handlers'
 
+import Tree from '~/assets/js/Tree'
+
+// const ttree = new Tree({ elements: pages })
+
+// const tree = new Tree(JSON.parse(JSON.stringify(ttree)))
+// console.log(tree)
+
 export const state = () => ({
     refresh: false,
     activeSection: 'Design',
