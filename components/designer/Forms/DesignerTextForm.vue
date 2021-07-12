@@ -1,5 +1,6 @@
 <template>
     <FormulateForm
+        :key="activeItem.path"
     >
         <FormulateInput
             type="text"
@@ -59,7 +60,7 @@
             label="Default Value"
             help="This will be set by default"
             @input="update({ value: $event, property: 'inputValue' })"
-            :value="activeItem.inputValue"
+            :value="activeItem.inputValue || activeItem.title"
             v-if="activeItem.canEdit == 'no' 
                 || activeItem.inputType == 'text'"
 
@@ -160,8 +161,8 @@
 
         <style-select 
             class="my-4"  
-            @input="update({ value: $event, property: 'style' })"
-            :value="activeItem.style"
+            @input="update({ value: $event, property: 'textStyle' })"
+            :value="activeItem.textStyle"
         />
 
 

@@ -1,5 +1,6 @@
 <template>
     <FormulateForm
+        :key="activeItem.path"
     >
         <FormulateInput
             type="text"

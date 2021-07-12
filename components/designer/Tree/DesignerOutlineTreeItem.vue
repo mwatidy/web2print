@@ -4,8 +4,8 @@
             <div 
                 @click="treeItemClick"
                 :class="['flex items-center p-2 cursor-pointer', 
-                    item.page === activeItem.page && item.path == activeItem.path ? 'active-item' : 'hover:bg-blue-200'
-                    ]" 
+                    item.path == activeItem.path ? 'active-item' : 'hover:bg-blue-200'
+                ]" 
                 :style="{ paddingLeft: (depth) + 'em',  whiteSpace: 'nowrap', width: 'fit-content', minWidth: '100%' }" 
             >
                     <TreeIcon :icon="this[item.type]" />
@@ -46,7 +46,7 @@ export default {
         }),
         treeItemClick () {
 
-            this.setActive({ ...this.item })
+            this.setActive(this.item)
         }
     },
     computed: {
@@ -55,39 +55,8 @@ export default {
             if (!this.item.path) return 1
             return this.item.path.split('/').length + 1
 
-        },
-        ...mapState({
-            activeItem: state => state.designer.activeItem
-        })
+        }
     },
-    // mounted () {
-        
-        // GET THE ELEMENTS DEPTH FOR PADDING CALCULATION
-
-        // const elem = this.$refs.text
-        // let parent = elem.parentElement
-
-        // if (parent.classList.contains('parent')) return this.depth = 1
-
-        // this.depth = 0
-
-        
-
-        // while (true) {
-
-        //     this.depth += 1
-        //     parent = parent.parentElement
-
-        //     if (parent.classList.contains('parent'))  {
-
-        //         this.depth = (this.depth / 3) + 1
-        //         break;
-
-        //     }
-
-        // }
-
-    // }
 }
 </script>
 

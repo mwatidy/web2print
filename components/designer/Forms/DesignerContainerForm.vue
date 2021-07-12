@@ -1,5 +1,6 @@
 <template>
     <FormulateForm
+        :key="activeItem.path"
     >
         <FormulateInput
             type="text"
@@ -148,21 +149,20 @@
                 label="Left"
                 @input="update({ key:'paddingLeft', value: $event + 'px', property: 'style' })"
                 :value="normalizeNumber('paddingLeft')"
-
             />
 
         </div>
 
 
 
-        <FormulateInput
+        <!-- <FormulateInput
             type="select"
             name="Overflow"
             label="Overflow"
             :options="['Hide extra', 'Place on the next line']"
             help="If elements exceed width or height of container"
 
-        />
+        /> -->
 
         <!-- <FormulateInput
             type="select"
@@ -172,14 +172,21 @@
             help="How will children elements be placed"
         /> -->
 
-        <FormulateInput
+        <!-- <FormulateInput
             type="number"
             name="ElementPadding"
             label="Elements Spacing"
             help="space between elements"
-        />
+            @input="update({ key:'paddingLeft', value: $event + 'px', property: 'style' })"
+            :value="normalizeNumber('paddingLeft')"
+        /> -->
 
-        <alignment-select class="my-4" type="vertical" v-model="alignment"  />
+        <alignment-select 
+            class="my-4" 
+            type="vertical" 
+            @input="update({ key:'justifyContent', value: $event.vertical, property: 'style' })"
+            :value="activeItem.style.justifyContent"
+        />
 
         <!-- <style-select class="my-4"  /> -->
         <!-- :value="{ x: 1 }" -->
@@ -202,6 +209,9 @@ export default {
             alignment: null
         }
     },
+    // mounted () {
+    //     console.log(this.activeItem)
+    // }
     // methods: {
 
     // },

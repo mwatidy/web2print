@@ -32,17 +32,17 @@
 <script>
 
 const horizontalButtons = [
-    { icon: 'align/h-left', value: 'left' },
+    { icon: 'align/h-left', value: 'flex-start' },
     { icon: 'align/h-center', value: 'center' },
-    { icon: 'align/h-right', value: 'right' },
-    { icon: 'align/h', value: 'equal' },
+    { icon: 'align/h-right', value: 'flex-end' },
+    { icon: 'align/h', value: 'space-between' },
 ]
 
 const verticalButtons = [
-    { icon: 'align/v-top', value: 'left' },
+    { icon: 'align/v-top', value: 'flex-start' },
     { icon: 'align/v-center', value: 'center' },
-    { icon: 'align/v-bottom', value: 'right' },
-    { icon: 'align/v', value: 'equal' },
+    { icon: 'align/v-bottom', value: 'flex-end' },
+    { icon: 'align/v', value: 'space-between' },
 ]
 
 export default {
@@ -52,8 +52,8 @@ export default {
             required: true
         },
         value: {
-            type: Object,
-            validator: (val) => typeof val === 'object'
+            type: String,
+            // validator: (val) => typeof val === 'object'
                 // if () return false
                 // if (this.type === 'horizontal') return !!val.selectedHorizontal
                 // else if (this.type === 'both') return !!val.selectedVertical
@@ -63,8 +63,8 @@ export default {
     },
     mounted () {
         if (this.value) {
-            this.selectedHorizontal = this.value.selectedHorizontal
-            this.selectedVertical = this.value.selectedVertical
+            this.selectedHorizontal = this.value
+            this.selectedVertical = this.value
         }
     },
     data () {

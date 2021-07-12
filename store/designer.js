@@ -2,20 +2,29 @@ import pages from '~/assets/dummydata/page'
 import _ from 'lodash'
 import { arrayBufferToBase64, base64ToArrayBuffer } from '~/assets/js/file_handlers'
 
-import Tree from '~/assets/js/Tree'
+// import Tree from '~/assets/js/Tree'
 
-// const ttree = new Tree({ elements: pages })
+/* 
 
-// const tree = new Tree(JSON.parse(JSON.stringify(ttree)))
-// console.log(tree)
+    CONTINUE FROM HERE 
+    
+    --> CREATE SAMPLE TREE
+    --> CHANGE STORE METHOD FOR ACTIVE CHILD
+    --> CONTINUE CONTAINER, GROUP, TEXT CLASSES
+
+*/
+
+// window.tree = pages
+// window.page = tree.elements[0]
+// window.container = tree.elements[0].children[0]
+// window.group = container.children[0]
+// window.text = window.group.children[0]
 
 export const state = () => ({
-    refresh: false,
     activeSection: 'Design',
-    activeItem: pages[0],
-    activeItemPath: null,
-    activePage: 0,
-    pages: pages,
+    activeItemPath: pages.elements[0].path,
+    pages: pages.elements,
+    tree: pages,
     assetsLoaded: false,
     fonts: [],
     colors: [],
@@ -26,16 +35,17 @@ export const getters = {
     activeItem: state => {
 
         const path = state.activeItemPath
-        const page = state.activePage
+        const tree = state.tree
+        
+        try {
 
-        if (page) {
+            const element = tree.find(path)
+            return element
 
-            if (!path) state.pages[page]
+        } catch (e) {
 
-            
-
-        } else {
-            return null
+            console.log(e)
+            return {}
         }
 
     } 
@@ -61,28 +71,11 @@ export const mutations = {
         if (['fonts','styles','colors'].indexOf(key) > -1) localStorage.setItem(key, JSON.stringify(state[key]))
     },
     
-    update_pages (state, pages) {
-        state.pages = pages
-    },
 
-    update_child (state, { key, value, property, item }) {
+    update_child (_, { child, key, property, value }) {
 
-        const child = item ? item : state.activeItem
-
-        let pageIndex = child.page
-        let childIndex = (child.path ? 'children[' + child.path.split('/').join('].children[') + ']' : '') 
-        
-        let childProperty
-        if (key) childProperty = childIndex + `.${property}[${key}]`
-        else childProperty = childIndex + `.${property}`
-
-        _.update(state.pages[pageIndex], childProperty, _ => value)
-        const element = _.get(state.pages[pageIndex], childIndex)
-        
-        state.refresh = !state.refresh
-        state.activeItem = element
-
-        console.log(element)
+        if (key) child[property][key] = value
+        else child[property] = value
         
     },
 
@@ -91,7 +84,23 @@ export const mutations = {
     },
 
     update_active (state, item) {
-        state.activeItem = item
+        state.activeItemPath = item.path
+    },
+
+    add_item (state, { activeItem }) {
+
+        let element
+        if (activeItem) {
+            element = activeItem.createDefaultChild()
+            activeItem.add(element)
+        }
+        else element = state.tree.createPage('Page 1')
+    },
+
+    delete_item (state, activeItem) {
+        state.activeItemPath = state.tree.elements[0].path
+        activeItem.delete(state.tree)
+        // state.tree.delete()
     }
 }
 
@@ -140,6 +149,30 @@ export const actions = {
 
     async saveAsset ({ state, commit }, { key, value }) {
         commit('update_state', { key, value })
+    },
+
+    async updateChild ({ state, getters, commit }, { key, value, property, item }) {
+
+        const tree = state.tree
+        const child = item ? tree.find(item.path) : getters.activeItem
+
+        commit('update_child', { child, key, property, value })
+
+
+    },
+
+    addItem ({ getters, commit, state }) {
+
+        const activeItem = getters.activeItem
+        commit('add_item', { activeItem })
+
+    },
+
+    deleteItem ({ getters, commit }) {
+
+        const activeItem = getters.activeItem
+        commit('delete_item', activeItem)
+
     }
 
 }

@@ -1,5 +1,6 @@
 <template>
     <FormulateForm
+        :key="activeItem.path"
     >
         <FormulateInput
             type="text"
@@ -46,7 +47,7 @@
                 name="PaddingTop"
                 label="Top"
                 @input="update({ key:'paddingTop', value: $event + 'px', property: 'style' })"
-                :value="parseInt(activeItem.style && activeItem.style.paddingTop && activeItem.style && activeItem.style.paddingTop.replace('px', ''))"
+                :value="normalizeNumber('paddingTop')"
 
             />
 
@@ -56,8 +57,7 @@
                 name="PaddingBottom"
                 label="Bottom"
                 @input="update({ key:'paddingBottom', value: $event + 'px', property: 'style' })"
-                :value="parseInt(activeItem.style && activeItem.style.paddingBottom && activeItem.style && activeItem.style.paddingBottom.replace('px', ''))"
-
+                :value="normalizeNumber('paddingBottom')"
             />
 
             <FormulateInput
@@ -66,8 +66,7 @@
                 name="PaddingRight"
                 label="Right"
                 @input="update({ key:'paddingRight', value: $event + 'px', property: 'style' })"
-                :value="parseInt(activeItem.style && activeItem.style.paddingRight && activeItem.style && activeItem.style.paddingRight.replace('px', ''))"
-
+                :value="normalizeNumber('paddingRight')"
             />
 
             <FormulateInput
@@ -76,10 +75,35 @@
                 name="PaddingLeft"
                 label="Left"
                 @input="update({ key:'paddingLeft', value: $event + 'px', property: 'style' })"
-                :value="parseInt(activeItem.style && activeItem.style.paddingLeft && activeItem.style && activeItem.style.paddingLeft.replace('px', ''))"
+                :value="normalizeNumber('paddingLeft')"
+            />
+
+        </div>
+
+        <div class="flex">
+            <FormulateInput
+                class="mr-4"
+                type="number"
+                name="MinWidth"
+                label="Min Width"
+                placeholder="200"
+                min="0"
+                @input="update({ key:'minWidth', value: $event + 'px', property: 'style' })"
+                :value="normalizeNumber('minWidth')"
 
             />
 
+            <FormulateInput
+                class="mr-4"
+                type="number"
+                name="MaxWidth"
+                label="Max Width"
+                placeholder="200" 
+                min="0"          
+                @input="update({ key:'maxWidth', value: $event + 'px', property: 'style' })"
+                :value="normalizeNumber('maxWidth')"
+
+            />
         </div>
 
 
@@ -107,7 +131,7 @@
             :options="['Beginning', 'End', 'Center', 'Space Between']"
         /> -->
 
-        <FormulateInput
+        <!-- <FormulateInput
             type="number"
             name="ElementPadding"
             label="Elements Spacing"
@@ -115,13 +139,13 @@
             @input="update({ value: $event, property: 'elementSpacing' })"
             :value="activeItem.elementSpacing"
 
-        />
+        /> -->
 
         <alignment-select 
             class="my-4" 
             type="horizontal" 
-            @input="update({ value: $event, property: 'alignment' })"
-            :value="activeItem.alignment"
+            @input="update({ key:'justifyContent', value: $event.horizontal, property: 'style' })"
+            :value="activeItem.style.justifyContent"
         />
         
         <FormulateInput
@@ -129,12 +153,17 @@
             name="Seperator"
             label="Text Seperator"
             help="Characters between group elements"
-            @input="update({ value: $event, property: 'characterSeperator' })"
-            :value="activeItem.characterSeperator"
+            @input="update({ value: $event, property: 'seperator' })"
+            :value="activeItem.seperator"
 
         />
 
-        <style-select class="my-4" label="Seperator style"  />
+        <style-select 
+            class="my-4" 
+            label="Seperator style"  
+            @input="update({ value: $event, property: 'seperatorStyle' })"
+            :value="activeItem.seperatorStyle"
+        />
 
 
 

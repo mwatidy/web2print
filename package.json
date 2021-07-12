@@ -15,6 +15,7 @@
     "color-convert": "^2.0.1",
     "core-js": "^3.6.5",
     "file-saver": "^2.0.2",
+    "fs": "0.0.1-security",
     "lodash": "^4.17.21",
     "nuxt": "^2.14.6",
     "pdf-lib": "^1.11.2",

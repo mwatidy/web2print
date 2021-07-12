@@ -5,8 +5,8 @@
             <h1 class="p-4">Template</h1>
 
             <div class="flex items-center">
-                <button class="p-4 border-l"><Icon type="delete" /></button>
-                <button class="p-4 border-l"><Icon type="add" /></button>
+                <button class="p-4 border-l" @click="deleteItem"><Icon type="delete" /></button>
+                <button class="p-4 border-l" @click="addItem" v-if="!activeItem || !activeItem.isText"><Icon type="add" /></button>
             </div>
 
             <!-- 
@@ -44,7 +44,7 @@
             <DesignerOutlineTree :tree="pages" />
         </div>
     </div>
-    <div class="w-7/12 border p-4  overflow-auto">
+    <div class="w-7/12 border p-4  overflow-auto" v-if="activeItem">
 
         <div class="flex items-center my-2 mb-6">
             <TreeIcon :icon="activeItem.type" width="30" height="30"/>
@@ -55,16 +55,6 @@
         <DesignerGroupForm v-if="typeIs(GROUP)" />
         <DesignerTextForm v-if="typeIs(TEXT)" />
 
-        <button class="uppercase block bg-green-500 hover:bg-green-400 text-white w-full text-center p-4 my-8 font-bold rounded"> 
-            Save
-        </button>
-
-
-        <!-- FORM ELEMENTS FOR PAGES -->
-        <!-- FORM ELEMENTS FOR CONTAINERS -->
-        <!-- FORM ELEMENTS FOR GROUPS -->
-        <!-- FORM ELEMENTS FOR TEXTS -->
-        
     </div>
 </div>
 </template>
@@ -79,6 +69,8 @@ import DesignerContainerForm from '~/components/designer/Forms/DesignerContainer
 import DesignerGroupForm from '~/components/designer/Forms/DesignerGroupForm'
 import DesignerTextForm from '~/components/designer/Forms/DesignerTextForm'
 
+import { mapActions } from 'vuex'
+
 export default {
     components: { DesignerOutlineTree, DesignerPageForm, DesignerContainerForm, DesignerGroupForm, DesignerTextForm },
     mixins: [ DesignerMixin ],
@@ -91,6 +83,10 @@ export default {
 
     },
     methods: {
+        ...mapActions({
+            addItem: 'designer/addItem',
+            deleteItem: 'designer/deleteItem',
+        }),
         typeIs (type) {
             return this[type] === this.activeItem.type
         }

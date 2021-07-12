@@ -104,7 +104,9 @@ export default {
             this.style = {
                 ...style,
                 [key]: value
-            } 
+            }
+
+            this.$emit('input', this.style)
             
         },
     },

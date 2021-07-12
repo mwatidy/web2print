@@ -1,4 +1,4 @@
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapGetters } from 'vuex'
 
 export default {
     data () {
@@ -17,8 +17,13 @@ export default {
     methods: {
         ...mapMutations({
             updateActive: 'designer/update_active',
-            refreshDesign: 'designer/refresh',
-        })
+        }),
+        samePath (item) {
+            return item.path === this.activeItem.path
+        },
+        addSelectionClass (element) {
+            return this.samePath(element) ? 'border-blue-500' : 'hover:border-green-400 cursor-pointer'
+        }
     },
     computed: {   
         designer_mode () {
@@ -26,9 +31,11 @@ export default {
         },      
         ...mapState({
             activeSection: state => state.designer.activeSection,
-            activeItem: state => state.designer.activeItem,
-            pages: state => state.designer.pages,
-            refresh: state => state.designer.refresh
+            pages: state => state.designer.tree.elements,
+        }),
+        ...mapGetters({ 
+            activeItem: 'designer/activeItem',
         })
+
     }
 }
