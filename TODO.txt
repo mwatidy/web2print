@@ -1,29 +1,6 @@
-
--- NOTES --
-
-Container elements are flex-col
-Group elements are flex-row
-
-Groups should also have width, height, and padding settings
-Characters could be calculated automatically and displayed to the designer
-
-
-------------
-
-- Min and Max characters allowed
-    * What's the longest name or shortest name
-    * Make it on container level
-
-
-- Required to set the longest text
-- What to do ? decrease font size by X 
-
-- Format input (optional)
-- add labels to dropdown selection 
-
-- make text is optional
-- add styles with assets, apply on freeform on TEXT
-
-- ROW: make align left, right, center, space evenly 
-- COL: make align left, right, center, space evenly
-
+1- Calculate maximum characters and make validation for it
+2- Save initial PDF settings 
+3- Make ability to change metrics
+4- Create add group option 
+5- Align Text option 
+6- Is required option

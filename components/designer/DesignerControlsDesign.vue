@@ -2,9 +2,12 @@
 <div class="flex w-full h-full">
     <div class="w-5/12 border">
         <div class="flex justify-between items-center border-b">
-            <h1 class="p-4">Template</h1>
+            
+            <!-- <h1 class="p-4">Template</h1> -->
 
             <div class="flex items-center">
+                <button class="p-4 border-l" @click="showSettings"><Icon type="settings" /></button>
+
                 <button class="p-4 border-l" @click="deleteItem"><Icon type="delete" /></button>
                 <button class="p-4 border-l" @click="addItem" v-if="!activeItem || !activeItem.isText"><Icon type="add" /></button>
             </div>
@@ -56,6 +59,38 @@
         <DesignerTextForm v-if="typeIs(TEXT)" />
 
     </div>
+    <popup 
+        :visible="settingsPopupVisible" 
+        title="Settings" 
+        @close="closeSettings"
+    >
+        <div class="p-8">
+
+            <h1 class="pb-4 text-lg font-bold">Default metrics</h1>
+
+            <div class="pb-4 flex items-center justify-between">
+                <span>Page and margins</span>
+                <select v-model="settings.margin">
+                    <option value="pt">Points (pt)</option>
+                    <option value="px">Pixels (px)</option>
+                    <option value="in">Inches (in)</option>
+                </select>
+            </div>
+
+            <div class="pb-4 flex items-center justify-between">
+                <span>Font size</span>
+                <select v-model="settings.font">
+                    <option value="pt">Points (pt)</option>
+                    <option value="px">Pixels (px)</option>
+                    <option value="in">Inches (in)</option>
+                </select>
+            </div>
+        </div>
+        <template v-slot:actions>
+            <button @click="closeSettings" class="bg-gray-300">Close</button>
+            <button @click="saveSettings" class="bg-blue-700 text-white">Save</button>
+        </template>
+    </popup>
 </div>
 </template>
 
@@ -70,25 +105,40 @@ import DesignerGroupForm from '~/components/designer/Forms/DesignerGroupForm'
 import DesignerTextForm from '~/components/designer/Forms/DesignerTextForm'
 
 import { mapActions } from 'vuex'
+import Popup from "~/components/Popup.vue";
 
 export default {
-    components: { DesignerOutlineTree, DesignerPageForm, DesignerContainerForm, DesignerGroupForm, DesignerTextForm },
+    components: { DesignerOutlineTree, DesignerPageForm, DesignerContainerForm, DesignerGroupForm, DesignerTextForm, Popup },
     mixins: [ DesignerMixin ],
     data() {
         return {
-
-        }
-    },
-    mounted () {
-
+            settingsPopupVisible: false,
+            settings: {
+                margin: 'pt',
+                font: 'pt'
+            }
+        }   
     },
     methods: {
         ...mapActions({
             addItem: 'designer/addItem',
             deleteItem: 'designer/deleteItem',
+            updateSettings: 'designer/updateSettings'
         }),
         typeIs (type) {
             return this[type] === this.activeItem.type
+        },
+        showSettings () {
+            const settings = { ...this.$store.state.designer.settings }
+            this.settings = settings
+            this.settingsPopupVisible = true 
+        },
+        saveSettings () {
+            this.updateSettings(this.settings)
+            this.settingsPopupVisible = false
+        },
+        closeSettings () {
+            this.settingsPopupVisible = false
         }
     },
 }

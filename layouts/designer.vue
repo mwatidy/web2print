@@ -13,10 +13,12 @@
 </template>
 
 <script>
+import AlignmentSelect from '~/components/designer/Forms/AlignmentSelect.vue'
 
 import DesignerMixin from '~/mixins/designer.js'
 
 export default {
+  components: { AlignmentSelect },
   mixins: [ DesignerMixin ]
 }
 </script>

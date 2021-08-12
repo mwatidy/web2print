@@ -29,6 +29,10 @@ export const state = () => ({
     fonts: [],
     colors: [],
     styles: [],
+    settings: {
+        margin: 'pt',
+        font: 'pt'
+    }
 })
 
 export const getters = {
@@ -101,7 +105,8 @@ export const mutations = {
         state.activeItemPath = state.tree.elements[0].path
         activeItem.delete(state.tree)
         // state.tree.delete()
-    }
+    },
+
 }
 
 export const actions = {
@@ -173,6 +178,10 @@ export const actions = {
         const activeItem = getters.activeItem
         commit('delete_item', activeItem)
 
+    },
+
+    updateSettings ({ commit }, settings) {
+        commit('update_state', { key: "settings", value: settings })
     }
 
 }
