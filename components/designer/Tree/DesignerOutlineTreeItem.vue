@@ -12,7 +12,7 @@
                     <span class="pl-2">{{ item.title }}</span>
             </div>
             <div v-if="item.children">
-                <DesignerOutlineTreeItem 
+                <DesignerOutlineTreeItem
                     v-for="(child, i) of item.children"
                     :key="i"
                     :item="child" 
@@ -27,7 +27,7 @@
 import DesignerOutlineTreeItem from '~/components/designer/Tree/DesignerOutlineTreeItem'
 import DesignerMixin from '~/mixins/designer'
 
-import { mapMutations, mapState } from 'vuex'
+import { mapMutations } from 'vuex'
 
 export default {
     // components: { DesignerOutlineTreeItem: () => import('~/components/designer/Tree/DesignerOutlineTreeItem.vue') },
@@ -45,7 +45,6 @@ export default {
             setActive: 'designer/update_active'
         }),
         treeItemClick () {
-
             this.setActive(this.item)
         }
     },
@@ -67,7 +66,5 @@ export default {
 
 .active-item >>> svg {
     @apply stroke-2 stroke-current fill-current text-blue-600;
-    /* fill: #FFF;
-    stroke: #FFF; */
 }
 </style>

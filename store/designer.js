@@ -91,11 +91,11 @@ export const mutations = {
         state.activeItemPath = item.path
     },
 
-    add_item (state, { activeItem }) {
+    add_item (state, { activeItem, isGroup }) {
 
         let element
         if (activeItem) {
-            element = activeItem.createDefaultChild()
+            element = isGroup ? activeItem.createGroup() : activeItem.createDefaultChild()
             activeItem.add(element)
         }
         else element = state.tree.createPage('Page 1')
@@ -120,7 +120,7 @@ export const actions = {
 
     },
 
-    async loadAsset ({ state, commit }, key) {
+    async loadAsset ({ commit }, key) {
 
         let data = JSON.parse(localStorage.getItem(key))
         if (!data) return null
@@ -152,7 +152,7 @@ export const actions = {
 
     },
 
-    async saveAsset ({ state, commit }, { key, value }) {
+    async saveAsset ({ commit }, { key, value }) {
         commit('update_state', { key, value })
     },
 
@@ -166,10 +166,10 @@ export const actions = {
 
     },
 
-    addItem ({ getters, commit, state }) {
+    addItem ({ getters, commit }, isGroup = undefined) {
 
         const activeItem = getters.activeItem
-        commit('add_item', { activeItem })
+        commit('add_item', { activeItem, isGroup })
 
     },
 

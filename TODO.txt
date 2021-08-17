@@ -1,6 +1,7 @@
-1- Calculate maximum characters and make validation for it
-2- Save initial PDF settings 
-3- Make ability to change metrics
-4- Create add group option 
-5- Align Text option 
-6- Is required option
+1 - Calculate maximum characters and make validation for it
+2 - Save initial PDF settings 
+3 - Make ability to change metrics
+4 - Create add group option 
+5 - Align Text option 
+6 - Is required option
+

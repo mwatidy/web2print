@@ -19,7 +19,8 @@ export default {
             updateActive: 'designer/update_active',
         }),
         samePath (item) {
-            return item.path === this.activeItem.path
+            return item.path
+                        === (this.activeItem && this.activeItem.path)
         },
         addSelectionClass (element) {
             return this.samePath(element) ? 'border-blue-500' : 'hover:border-green-400 cursor-pointer'

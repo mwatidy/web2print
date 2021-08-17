@@ -16,6 +16,7 @@ container1.add(text3)
 group1.add(text1)
 group1.add(text2)
 
+tree.refreshPaths()
 
 export default tree
 

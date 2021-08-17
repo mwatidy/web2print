@@ -7,9 +7,9 @@
 
             <div class="flex items-center">
                 <button class="p-4 border-l" @click="showSettings"><Icon type="settings" /></button>
-
-                <button class="p-4 border-l" @click="deleteItem"><Icon type="delete" /></button>
-                <button class="p-4 border-l" @click="addItem" v-if="!activeItem || !activeItem.isText"><Icon type="add" /></button>
+                <button class="p-4 border-l" @click="deleteItem()"><Icon type="delete" /></button>
+                <button class="p-4 border-l" @click="addItem()" v-if="!activeItem || !activeItem.isText"><Icon type="add" /></button>
+                <button class="p-4 border-l flex items-center" @click="addGroup(true)" v-if="activeItem && activeItem.isGroup"><Icon type="add" /> <span class="text-xs">Group</span></button>
             </div>
 
             <!-- 
@@ -125,6 +125,9 @@ export default {
             deleteItem: 'designer/deleteItem',
             updateSettings: 'designer/updateSettings'
         }),
+        addGroup () {
+            this.addItem(true)
+        },
         typeIs (type) {
             return this[type] === this.activeItem.type
         },

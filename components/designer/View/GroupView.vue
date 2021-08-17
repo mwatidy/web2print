@@ -8,7 +8,7 @@
             :key="child.path"
             v-for="child of group.children"
         >
-            <group-view v-if="child.isGroup" :group="child" />
+            <group-view v-if="child.isGroup" :group="child" :name="child.path" />
             <text-view v-if="child.isText" :text="child" />
         </div>
     </div>    
@@ -16,7 +16,8 @@
 
 <script>
 
-import DesignerMixin from '~/mixins/designer'    
+import DesignerMixin from '~/mixins/designer'   
+import GroupView from './GroupView' 
 
 export default {
     mixins: [ DesignerMixin ],
@@ -24,7 +25,10 @@ export default {
         group: {
             type: Object
         }
-    }
+    },
+    beforeCreate () {
+        this.$options.components.GroupView = GroupView
+    },
 }
 </script>
 

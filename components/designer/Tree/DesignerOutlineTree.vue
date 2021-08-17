@@ -13,10 +13,12 @@ import DesignerMixin from '~/mixins/designer'
 import DesignerOutlineTreeItem from '~/components/designer/Tree/DesignerOutlineTreeItem'
 import TreeIcon from './TreeIcon.vue'
 
-
 export default {
     components: { DesignerOutlineTreeItem, TreeIcon },
     mixins: [ DesignerMixin ],
+    beforeUpdate () {
+        console.log(this.tree)
+    },
     props: {
         tree: {
             type: Array,

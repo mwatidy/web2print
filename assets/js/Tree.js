@@ -59,6 +59,39 @@ export default class Tree {
         return new Text({ title })
     }
 
+    refreshPaths (element, path) {
+        
+        
+        /* 
+        
+            What is required?
+
+            recursive function 
+            that updates paths
+
+        */
+
+        if (element) {
+
+            if (element.children && element.children.length) {
+                return element.children.map((child, i) => {
+                    this.refreshPaths(child, path + `${i}/`)
+                })
+            }
+
+            element.path = path
+            return
+
+        }  
+
+        // IF THERE IS NO ELEMENT 
+        return this.elements.map((page, i) => {
+            this.refreshPaths(page, `${i}-`)
+        })
+
+
+    }
+
 }
 
 class TreeItem {
@@ -110,6 +143,7 @@ class TreeItem {
         const elementParent = tree.findParent(this)
         const elementIndex = elementParent.children.findIndex(el => el.path === this.path)
         elementParent.children.splice(elementIndex, 1)
+        tree.refreshPaths()
 
     }
 
@@ -256,7 +290,11 @@ class Group extends TreeItem {
     }
 
     createDefaultChild () {
-        return new Text('New Group')
+        return new Text('New Text')
+    }
+
+    createGroup () {
+        return new Group('New Group')
     }
 
 

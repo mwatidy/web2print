@@ -61,6 +61,10 @@ import fontkit from '@pdf-lib/fontkit'
 
 export default {
 
+  middleware ({ redirect }) {
+    return redirect('/designer')
+  },
+
   data() {
     return {
       texts: {},
